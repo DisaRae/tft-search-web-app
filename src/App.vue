@@ -15,14 +15,20 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: aliceblue;
-  margin-top: 60px;
-  background-color:teal;
-}
+    #app {
+        font-family: Avenir, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: aliceblue;
+        margin-top: 0px;
+        background-color: teal;
+        min-height: 800px;
+    }
+
+    html {
+        background-color: teal;
+    }
+
     @import'~bootstrap/dist/css/bootstrap.css';
 </style>
