@@ -129,7 +129,11 @@
         padding: 50px;
     }
 
-    .search-bar{
-        font-weight:bold;
+    .search-bar {
+        font-weight: bold;
+        border: 3px solid goldenrod;
+        border-radius: 25px;
+        padding: 10px;
+        background-color: lightseagreen;
     }
 </style>
