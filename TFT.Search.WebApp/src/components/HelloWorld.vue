@@ -2,7 +2,7 @@
     <div class="hello">
         <h1>{{ msg }}</h1>
         <div class="col-md-12">
-            <div class="row">
+            <div class="row search-bar">
                 <div class="col-md-3">
                     Name:
                     <input v-model="model.searchName" v-on:blur="model.getChampionsByName" />
@@ -127,5 +127,9 @@
         color: aliceblue;
         margin: 50px;
         padding: 50px;
+    }
+
+    .search-bar{
+        font-weight:bold;
     }
 </style>
