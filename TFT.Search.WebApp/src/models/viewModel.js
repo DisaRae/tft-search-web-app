@@ -13,7 +13,6 @@ export default class ViewModel {
             if (lowerName.includes(lowerSearchName))
                 this.selectedChampions.push(x);
         });
-        console.log(this.selectedChampions.length);
     }
 
     getChampionsBySkillKeyword() {
@@ -26,7 +25,6 @@ export default class ViewModel {
             if (lowerSkill.includes(lowerSearchSkillDescription))
                 this.selectedChampions.push(x);
         });
-        console.log(this.selectedChampions.length);
     }
 
     async getAllChampions() {
@@ -34,7 +32,6 @@ export default class ViewModel {
             method: 'GET'
         });
         var response = await request.json();
-        console.log(response);
         this.champions = response;
     }
 }
