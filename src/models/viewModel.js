@@ -28,7 +28,8 @@ export default class ViewModel {
     }
 
     async getAllChampions() {
-        const request = await fetch(`http://cors-anywhere.herokuapp.com/https://api.tft.versionverve.com/currentset/champions`, {
+        // http://cors-anywhere.herokuapp.com/
+        const request = await fetch(`https://api.tft.versionverve.com/currentset/champions`, {
             method: 'GET'
         });
         var response = await request.json();
