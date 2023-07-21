@@ -32,7 +32,7 @@ export default class ViewModel {
         const request = await fetch(`https://api.tft.versionverve.com/currentset/champions`, {
             method: 'GET',
             headers: {
-                'Origin':'https://tft.versionverve.com'
+                'Origin':'https://www.tft.versionverve.com'
             }
         });
         var response = await request.json();
