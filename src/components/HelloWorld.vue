@@ -39,7 +39,8 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div v-html="span(c.ability.desc)" />
+                        <div v-html="costSpan(c.cost)" class="col-md-12" style="text-align:right;"/>
+                        <div v-html="span(c.ability.desc)"  class="col-md-12" />
                     </div>
                 </div>
             </div>
@@ -59,6 +60,20 @@
         methods: {
             span(text) {
                 return `<span> ${text} </span>`
+            },
+            costSpan(cost) {
+                var badgeCss = '';
+                if (cost == 1)
+                    badgeCss = 'badge-secondary';
+                else if (cost == 2)
+                    badgeCss = 'badge-success';
+                else if (cost == 3)
+                    badgeCss = 'badge-primary';
+                else if (cost == 4)
+                    badgeCss = 'badge-danger';
+                else if (cost == 2)
+                    badgeCss = 'badge-warning';
+                return `<span class="${badgeCss}"> ${cost} </span>`;
             }
         },
         setup(methods) {
