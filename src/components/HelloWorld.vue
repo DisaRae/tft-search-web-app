@@ -5,15 +5,15 @@
             <div class="row search-bar">
                 <div class="col-md-3">
                     Name:
-                    <input v-model="model.searchName" v-on:blur="model.getChampionsByName" />
+                    <input v-model="model.searchName" v-on:change="model.getChampionsByName" />
                 </div>
                 <div class="col-md-4">
                     Skill Keyword:
-                    <input v-model="model.searchSkillDescription" v-on:blur="model.getChampionsBySkillKeyword" />
+                    <input v-model="model.searchSkillDescription" v-on:change="model.getChampionsBySkillKeyword" />
                 </div>
                 <div class="col-md-4">
                     Trait:
-                    <input v-model="model.searchTraits" />
+                    <input v-model="model.searchTraits" v-on:change="model.getChampionsBySkillKeyword" />
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div v-html="span(c.ability.desc)" />
+                        <div v-html="span(c.ability.description)" />
                     </div>
                 </div>
             </div>
