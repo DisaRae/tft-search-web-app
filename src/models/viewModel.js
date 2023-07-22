@@ -28,7 +28,7 @@ export default class ViewModel {
             this.selectedChampions = this.champions;
         else
             this.champions.forEach(x => {
-                var lowerSkill = x.ability.description.toLowerCase();
+                var lowerSkill = x.ability.desc.toLowerCase();
                 var lowerSearchSkillDescription = this.searchSkillDescription.toLowerCase();
                 if (lowerSkill.includes(lowerSearchSkillDescription))
                     this.selectedChampions.push(x);

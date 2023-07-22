@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div v-html="span(c.ability.description)" />
+                        <div v-html="span(c.ability.desc)" />
                     </div>
                 </div>
             </div>
