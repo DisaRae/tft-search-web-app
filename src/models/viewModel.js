@@ -1,6 +1,6 @@
 export default class ViewModel {
     champions = [];
-    selectedChampions = champions;
+    selectedChampions = [];
     searchName = '';
     searchSkillDescription = '';
     searchTraits = '';
@@ -62,5 +62,6 @@ export default class ViewModel {
         });
         var response = await request.json();
         this.champions = response;
+        this.selectedChampions = response;
     }
 }

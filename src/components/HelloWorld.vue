@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-md-4">
                     Trait:
-                    <input v-model="model.searchTraits" v-on:change="model.getChampionsBySkillKeyword" />
+                    <input v-model="model.searchTraits" v-on:change="model.getChampionsByTrait" />
                 </div>
             </div>
         </div>
