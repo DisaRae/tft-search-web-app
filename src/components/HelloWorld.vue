@@ -5,15 +5,15 @@
             <div class="row search-bar">
                 <div class="col-md-3">
                     Name:
-                    <input v-model="model.searchName" v-on:change="model.getChampionsByName" />
+                    <input v-model="model.searchName" v-on:blur="model.getChampionsByName" />
                 </div>
                 <div class="col-md-4">
                     Skill Keyword:
-                    <input v-model="model.searchSkillDescription" v-on:change="model.getChampionsBySkillKeyword" />
+                    <input v-model="model.searchSkillDescription" v-on:blur="model.getChampionsBySkillKeyword" />
                 </div>
                 <div class="col-md-4">
                     Trait:
-                    <input v-model="model.searchTraits" v-on:change="model.getChampionsByTrait" />
+                    <input v-model="model.searchTraits" v-on:blur="model.getChampionsByTrait" />
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
             costSpan(cost) {
                 var badgeCss = '';
                 if (cost == 1)
-                    badgeCss = 'badge-secondary';
+                    badgeCss = 'badge-light';
                 else if (cost == 2)
                     badgeCss = 'badge-success';
                 else if (cost == 3)

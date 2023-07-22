@@ -21,10 +21,11 @@ export default class ViewModel {
     }
 
     getChampionsBySkillKeyword() {
+        console.log('in');
         this.searchName = '';
         this.searchTraits = '';
         this.selectedChampions = [];
-        if (this.searchName.trim() == '')
+        if (this.searchSkillDescription.trim() == '')
             this.selectedChampions = this.champions;
         else
             this.champions.forEach(x => {
@@ -37,13 +38,13 @@ export default class ViewModel {
 
     getChampionsByTrait() {
         this.searchName = '';
-        this.searchTraits = '';
+        this.searchSkillDescription = '';
         this.selectedChampions = [];
-        if (this.searchName.trim() == '')
+        if (this.searchTraits.trim() == '')
             this.selectedChampions = this.champions;
         else
             this.champions.forEach(x => {
-                var lowerSearchTraits = this.searchTraits.toLowerCase();
+                var lowerSearchTraits = this.searchTraits.toLowerCase().trim();
                 x.traits.forEach(y => {
                     var lowerTrait = y.toLowerCase();
                     if (lowerTrait.includes(lowerSearchTraits))
