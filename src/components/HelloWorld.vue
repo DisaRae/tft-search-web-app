@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div v-html="costSpan(c.cost)" class="col-md-12" style="text-align:right;"/>
+                        <div v-html="costSpan(c.cost)" class="col-md-12 cost" />
                         <div v-html="span(c.ability.desc)"  class="col-md-12" />
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                     badgeCss = 'badge-danger';
                 else if (cost == 2)
                     badgeCss = 'badge-warning';
-                return `<span class="${badgeCss}"> ${cost} </span>`;
+                return `<span class="badge ${badgeCss}"> ${cost} </span>`;
             }
         },
         setup(methods) {
@@ -150,5 +150,10 @@
         border-radius: 25px;
         padding: 10px;
         background-color: lightseagreen;
+    }
+
+    .cost {
+        text-align:right;
+        max-height:20px;
     }
 </style>
