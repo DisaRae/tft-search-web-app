@@ -23,12 +23,12 @@
              :value="c">
             <h2>{{c.name}}</h2>
             <div class="col-md-12">
-                <div class="row">
+                <div class="row" style="">
                     <div class="col-md-6">
                         <div class="col-md-12 stat-box">
                             <div class="col-md-12">Armor: {{c.stats.armor}} </div>
-                            <div class="col-md-12">Attack Speed: {{c.stats.attackSpeed}}</div>
-                            <div class="col-md-12">Crit Chance: {{c.stats.critChance}}</div>
+                            <div class="col-md-12">Attack Speed: {{roundToPercent(c.stats.attackSpeed)}}%</div>
+                            <div class="col-md-12">Crit Chance: {{roundToPercent(c.stats.critChance)}}%</div>
                             <div class="col-md-12">Crit Multiplier: {{c.stats.critMultiplier}}</div>
                             <div class="col-md-12">Damage: {{c.stats.damage}}</div>
                             <div class="col-md-12">HP: {{c.stats.hp}}</div>
@@ -38,9 +38,16 @@
                             <div class="col-md-12"> Range: {{c.stats.range}}</div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div v-html="costSpan(c.cost)" class="col-md-12 cost" />
-                        <div v-html="span(c.ability.desc)"  class="col-md-12" />
+                    <div class="col-md-6" style="align-items:start !important;">
+                        <div class="col-md-12 skill-box">
+                            <div class="row">
+                                <div v-html="costSpan(c.cost)" class="col-md-12 cost" />
+                            </div>
+                            <div class="row">
+                                <h4>{{c.ability.name}}</h4>
+                                <div v-html="span(c.ability.desc)" class="col-md-12" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -64,16 +71,20 @@
             costSpan(cost) {
                 var badgeCss = '';
                 if (cost == 1)
-                    badgeCss = 'badge-light';
+                    badgeCss = '#6c757d';
                 else if (cost == 2)
-                    badgeCss = 'badge-success';
+                    badgeCss = '#28a745';
                 else if (cost == 3)
-                    badgeCss = 'badge-primary';
+                    badgeCss = '#007bff';
                 else if (cost == 4)
-                    badgeCss = 'badge-danger';
-                else if (cost == 2)
-                    badgeCss = 'badge-warning';
-                return `<span class="badge ${badgeCss}"> ${cost} </span>`;
+                    badgeCss = '#dc3545';
+                else if (cost == 5)
+                    badgeCss = '#ffc107';
+                return `Cost <span class="badge" style="background-color: ${badgeCss};"> ${cost} </span>`;
+            },
+            roundToPercent(number) {
+                var temp = Math.round(number * 100);
+                return temp;
             }
         },
         setup(methods) {
@@ -120,6 +131,10 @@
         margin: 10px;
         background-color: lavender;
         color: darkslateblue;
+    }
+
+    .skill-box {
+        align-items:start !important;
     }
 
     .champion-data {
