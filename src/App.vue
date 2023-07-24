@@ -1,5 +1,5 @@
 <template>
-  <img alt="logo" src="./assets/logo.png">
+  <img id="logo" alt="logo" src="./assets/logo.png">
   <HelloWorld msg="Search TFT Champions"/>
 </template>
 
@@ -28,6 +28,10 @@ export default {
 
     html {
         background-color: teal;
+    }
+
+    #logo {
+        max-height: 200px;
     }
 
     @import'~bootstrap/dist/css/bootstrap.css';

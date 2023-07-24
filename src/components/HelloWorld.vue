@@ -140,7 +140,7 @@
     .hello {
         background-color: teal;
         color: aliceblue;
-        margin: 50px;
+        margin: 0px 50px 50px 50px;
         padding: 50px;
     }
 
