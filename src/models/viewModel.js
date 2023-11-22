@@ -1,6 +1,12 @@
 export default class ViewModel {
     champions = [];
     selectedChampions = [];
+    augments = [];
+    selectedAugments = [];
+    items = [];
+    selectedItems = [];
+    traits = [];
+    selectedTraits = [];
     searchName = '';
     searchSkillDescription = '';
     searchTraits = '';
@@ -64,5 +70,44 @@ export default class ViewModel {
         var response = await request.json();
         this.champions = response;
         this.selectedChampions = response;
+    }
+
+    async getAllAugments() {
+        // http://cors-anywhere.herokuapp.com/
+        const request = await fetch(`https://api.tft.versionverve.com/currentset/augments`, {
+            method: 'GET',
+            headers: {
+                'Origin': 'https://www.tft.versionverve.com'
+            }
+        });
+        var response = await request.json();
+        this.augments = response;
+        this.selectedAugments = response;
+    }
+
+    async getAllItems() {
+        // http://cors-anywhere.herokuapp.com/
+        const request = await fetch(`https://api.tft.versionverve.com/currentset/augments`, {
+            method: 'GET',
+            headers: {
+                'Origin': 'https://www.tft.versionverve.com'
+            }
+        });
+        var response = await request.json();
+        this.items = response;
+        this.selectedItems = response;
+    }
+
+    async getAllTraits() {
+        // http://cors-anywhere.herokuapp.com/
+        const request = await fetch(`https://api.tft.versionverve.com/currentset/traits`, {
+            method: 'GET',
+            headers: {
+                'Origin': 'https://www.tft.versionverve.com'
+            }
+        });
+        var response = await request.json();
+        this.traits = response;
+        this.selectedTraits = response;
     }
 }

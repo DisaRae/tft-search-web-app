@@ -1,28 +1,31 @@
 <template>
     <div class="hello">
-        <h1>{{ msg }}</h1>
+        <h2>{{ msg }}</h2>
         <div class="col-md-12">
             <div class="row search-bar">
                 <div class="col-md-3">
                     Name:
                     <input class="col-md-4" v-model="model.searchName" v-on:blur="model.getChampionsByName" />
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     Skill Keyword:
                     <input class="col-md-4" v-model="model.searchSkillDescription" v-on:blur="model.getChampionsBySkillKeyword" />
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     Trait:
                     <input class="col-md-4" v-model="model.searchTraits" v-on:blur="model.getChampionsByTrait" />
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-navigation" @click="search()"> Search  </button>
                 </div>
             </div>
         </div>
 
-        <div class="champion-data" v-for="c in model.selectedChampions"
+        <div class="champion-data col-md-8" v-for="c in model.selectedChampions"
              :accesskey="c.name"
              :value="c">
             <div class="col-md-12 ability-header">
-                <h2 v-html ="costSpan(c.name, c.squareIcon, c.cost)" />
+                <h2 v-html="costSpan(c.name, c.squareIcon, c.cost)" />
             </div>
             <div class="col-md-12">
                 <div class="row">
@@ -56,6 +59,24 @@
                                 </div>
                                 <div v-html="span(c.ability.desc)" class="col-md-12" style="padding-left:100px;" />
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="trait-data col-md-8" v-for="c in model.selectedTraits"
+             :accesskey="c.name"
+             :value="c">
+            <div class="col-md-12 ability-header">
+                <h2 v-html="c.name" />
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-12 stat-box">
+                            {{c.description}}
                         </div>
                     </div>
                 </div>
@@ -107,6 +128,7 @@
         setup(methods) {
             const model = reactive(state.viewModel);
             model.getAllChampions();
+            model.getAllTraits();
             return {
                 model,
                 methods,
@@ -170,14 +192,6 @@
         color: aliceblue;
         margin: 0px 50px 50px 50px;
         padding: 50px;
-    }
-
-    .search-bar {
-        font-weight: bold;
-        border: 3px solid goldenrod;
-        border-radius: 25px;
-        padding: 10px;
-        background-color: lightseagreen;
     }
 
     .cost {
