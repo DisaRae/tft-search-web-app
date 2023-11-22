@@ -66,7 +66,7 @@
         </div>
 
 
-        <div class="trait-data col-md-8" v-for="c in model.selectedTraits"
+        <div class="trait-data col-md-4" v-for="c in model.selectedTraits"
              :accesskey="c.name"
              :value="c">
             <div class="col-md-12 ability-header">
