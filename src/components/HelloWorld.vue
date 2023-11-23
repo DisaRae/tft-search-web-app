@@ -22,68 +22,77 @@
         </div>
 
         <div class="row">
-        <div class="champion-data col-md-8" v-for="c in model.selectedChampions"
-             :accesskey="c.name"
-             :value="c">
-            <div class="col-md-12 ability-header">
-                <h2 v-html="costSpan(c.name, c.squareIcon, c.cost)" />
-            </div>
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="col-md-12 stat-box">
-                            <div class="col-md-12">Armor: {{c.stats.armor}} </div>
-                            <div class="col-md-12">Attack Speed: {{roundToPercent(c.stats.attackSpeed)}}%</div>
-                            <div class="col-md-12">Crit Chance: {{roundToPercent(c.stats.critChance)}}%</div>
-                            <div class="col-md-12">Crit Multiplier: {{round(c.stats.critMultiplier)}}</div>
-                            <div class="col-md-12">Damage: {{c.stats.damage}}</div>
-                            <div class="col-md-12">HP: {{c.stats.hp}}</div>
-                            <div class="col-md-12">Initial Mana: {{c.stats.initialMana}}</div>
-                            <div class="col-md-12">Magic Resist: {{c.stats.magicResist}}</div>
-                            <div class="col-md-12">Mana: {{c.stats.mana}}</div>
-                            <div class="col-md-12">Range: {{c.stats.range}}</div>
-                        </div>
+
+            <div class="col-md-8">
+
+                <div class="champion-data col-md-12" v-for="c in model.selectedChampions"
+                     :accesskey="c.name"
+                     :value="c">
+                    <div class="col-md-12 ability-header">
+                        <h2 v-html="costSpan(c.name, c.squareIcon, c.cost)" />
                     </div>
-                    <div class="col-md-6" style="align-items:start !important;">
-                        <div class="col-md-12 skill-box">
-                            <div class="row" style="margin-bottom: 20px;">
-                                <div class="col-md-2" v-for="t in c.traits"
-                                     :accesskey="t"
-                                     :value="t">
-                                    <span class="badge" style="background-color: gray;">{{t}}</span>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-12 stat-box">
+                                    <div class="col-md-12">Armor: {{c.stats.armor}} </div>
+                                    <div class="col-md-12">Attack Speed: {{roundToPercent(c.stats.attackSpeed)}}%</div>
+                                    <div class="col-md-12">Crit Chance: {{roundToPercent(c.stats.critChance)}}%</div>
+                                    <div class="col-md-12">Crit Multiplier: {{round(c.stats.critMultiplier)}}</div>
+                                    <div class="col-md-12">Damage: {{c.stats.damage}}</div>
+                                    <div class="col-md-12">HP: {{c.stats.hp}}</div>
+                                    <div class="col-md-12">Initial Mana: {{c.stats.initialMana}}</div>
+                                    <div class="col-md-12">Magic Resist: {{c.stats.magicResist}}</div>
+                                    <div class="col-md-12">Mana: {{c.stats.mana}}</div>
+                                    <div class="col-md-12">Range: {{c.stats.range}}</div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12 ability-header">
-                                    <img class="champion-icon" :src="c.ability.icon" height="50" width="50" />
-                                    <h4>{{c.ability.name}}</h4>
+                            <div class="col-md-6" style="align-items:start !important;">
+                                <div class="col-md-12 skill-box">
+                                    <div class="row" style="margin-bottom: 20px;">
+                                        <div class="col-md-2" v-for="t in c.traits"
+                                             :accesskey="t"
+                                             :value="t">
+                                            <span class="badge" style="background-color: gray;">{{t}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 ability-header">
+                                            <img class="champion-icon" :src="c.ability.icon" height="50" width="50" />
+                                            <h4>{{c.ability.name}}</h4>
+                                        </div>
+                                        <div v-html="span(c.ability.desc)" class="col-md-12" style="padding-left:100px;" />
+                                    </div>
                                 </div>
-                                <div v-html="span(c.ability.desc)" class="col-md-12" style="padding-left:100px;" />
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="trait-data col-md-3" v-for="c in model.selectedTraits"
-             :accesskey="c.name"
-             :value="c">
-            <div class="col-md-12 ability-header">
-                <h2>{{c.name}}</h2>
             </div>
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="col-md-12 stat-box">
-                            {{c.desc}}
+
+            <div class="col-md-4">
+
+                <div class="trait-data col-md-12" v-for="c in model.selectedTraits"
+                     :accesskey="c.name"
+                     :value="c">
+                    <div class="col-md-12 ability-header">
+                        <h2>{{c.name}}</h2>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-12 stat-box">
+                                    {{c.desc}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
             </div>
+
+        </div>
 
     </div>
 </template>
