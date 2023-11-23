@@ -21,6 +21,7 @@
             </div>
         </div>
 
+        <div class="row">
         <div class="champion-data col-md-8" v-for="c in model.selectedChampions"
              :accesskey="c.name"
              :value="c">
@@ -81,6 +82,8 @@
                 </div>
             </div>
         </div>
+
+            </div>
 
     </div>
 </template>
