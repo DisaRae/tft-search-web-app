@@ -49,6 +49,8 @@
     <Content Include="README.md" />
     <Content Include="src\App.vue" />
     <Content Include="src\assets\logo.png" />
+    <Content Include="src\components\Items.vue" />
+    <Content Include="src\components\Augments.vue" />
     <Content Include="src\components\HelloWorld.vue" />
     <Content Include="src\main.js" />
     <Content Include="src\models\ViewModel.js">
