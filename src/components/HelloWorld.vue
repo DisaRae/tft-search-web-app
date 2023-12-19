@@ -76,16 +76,10 @@
                 <div class="trait-data col-md-12" v-for="c in model.selectedTraits"
                      :accesskey="c.name"
                      :value="c">
-                    <div class="col-md-12 ability-header">
-                        <h2>{{c.name}}</h2>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="col-md-12 stat-box">
-                                    {{c.desc}}
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-12 stat-box">
+                            <h2>{{c.name}}</h2>
+                            {{c.desc}}
                         </div>
                     </div>
                 </div>
