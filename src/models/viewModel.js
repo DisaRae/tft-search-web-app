@@ -61,7 +61,7 @@ export default class ViewModel {
 
     async getAllChampions() {
         // http://cors-anywhere.herokuapp.com/
-        const request = await fetch(`https://api.tft.versionverve.com/currentset/champions`, {
+        const request = await fetch(`https://api.tft.versionverve.com/set/current/champions`, {
             method: 'GET',
             headers: {
                 'Origin':'https://www.tft.versionverve.com'
@@ -74,7 +74,7 @@ export default class ViewModel {
 
     async getAllAugments() {
         // http://cors-anywhere.herokuapp.com/
-        const request = await fetch(`https://api.tft.versionverve.com/currentset/augments`, {
+        const request = await fetch(`https://api.tft.versionverve.com/set/current/augments`, {
             method: 'GET',
             headers: {
                 'Origin': 'https://www.tft.versionverve.com'
@@ -87,7 +87,7 @@ export default class ViewModel {
 
     async getAllItems() {
         // http://cors-anywhere.herokuapp.com/
-        const request = await fetch(`https://api.tft.versionverve.com/currentset/augments`, {
+        const request = await fetch(`https://api.tft.versionverve.com/set/current/augments`, {
             method: 'GET',
             headers: {
                 'Origin': 'https://www.tft.versionverve.com'
@@ -100,7 +100,7 @@ export default class ViewModel {
 
     async getAllTraits() {
         // http://cors-anywhere.herokuapp.com/
-        const request = await fetch(`https://api.tft.versionverve.com/currentset/traits`, {
+        const request = await fetch(`https://api.tft.versionverve.com/set/current/traits`, {
             method: 'GET',
             headers: {
                 'Origin': 'https://www.tft.versionverve.com'
