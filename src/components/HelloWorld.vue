@@ -29,7 +29,7 @@
                      :accesskey="c.name"
                      :value="c">
                     <div class="col-md-12 ability-header">
-                        <h2 v-html="costSpan(c.name, c.squareIcon, c.cost)" />
+                        <h2 v-html="costSpan(c.name, c.icon, c.cost)" />
                     </div>
                     <div class="col-md-12">
                         <div class="row">
@@ -79,7 +79,7 @@
                     <div class="row">
                         <div class="col-md-12 stat-box">
                             <h2>{{c.name}}</h2>
-                            <h3>{{c.unitScale}}</h3>
+                            <h4>{{c.unitScale}}</h4>
                             {{c.description}}
                         </div>
                     </div>
