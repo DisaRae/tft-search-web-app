@@ -79,7 +79,7 @@
                     <div class="row">
                         <div class="col-md-12 stat-box">
                             <h2>{{c.name}}</h2>
-                            {{c.desc}}
+                            {{c.description}}
                         </div>
                     </div>
                 </div>
