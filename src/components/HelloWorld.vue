@@ -79,6 +79,7 @@
                     <div class="row">
                         <div class="col-md-12 stat-box">
                             <h2>{{c.name}}</h2>
+                            <h3>{{c.unitScale}}</h3>
                             {{c.description}}
                         </div>
                     </div>
