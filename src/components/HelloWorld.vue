@@ -39,7 +39,7 @@
                 <div class="trait-card" v-for="t in model.selectedTraits" :key="t.name">
                     <h4>{{ t.name }}</h4>
                     <div class="trait-scale">{{ t.unitScale }}</div>
-                    <p>{{ t.description }}</p>
+                    <p>{{ t.desc }}</p>
                 </div>
             </aside>
 
