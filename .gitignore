@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs/TFT.Search.WebApp/FileContentIndex
+/.vs/TFT.Search.WebApp/v17
+/bin
+/node_modules
+/obj/Debug

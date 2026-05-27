@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Design 2 – Compact Card Grid</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Avenir, Helvetica, Arial, sans-serif;
+    background-color: teal;
+    color: aliceblue;
+    min-height: 100vh;
+  }
+
+  /* ── Search strip ── */
+  .topbar {
+    background: darkslateblue;
+    border-bottom: 3px solid goldenrod;
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    margin-right: 10px;
+  }
+  .brand-logo {
+    width: 44px; height: 44px;
+    background: goldenrod;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 1rem; color: darkslateblue;
+  }
+  .brand h1 { font-size: 1.2rem; color: goldenrod; letter-spacing: 1px; }
+
+  .search-strip {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+    flex-wrap: wrap;
+  }
+
+  .search-field-inline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,0,0,0.25);
+    border: 1.5px solid goldenrod;
+    border-radius: 8px;
+    padding: 6px 12px;
+    flex: 1;
+    min-width: 140px;
+  }
+  .search-field-inline label {
+    font-size: 0.72rem;
+    color: goldenrod;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .search-field-inline input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: aliceblue;
+    font-size: 0.88rem;
+    width: 100%;
+  }
+
+  .btn-search {
+    padding: 8px 22px;
+    border-radius: 8px;
+    border: none;
+    background: goldenrod;
+    color: darkslateblue;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .btn-search:hover { background: aliceblue; }
+
+  /* ── Main layout ── */
+  .layout {
+    display: flex;
+    gap: 20px;
+    padding: 24px;
+  }
+
+  /* ── Champion grid ── */
+  .champion-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    align-content: start;
+  }
+
+  .champ-card {
+    background: darkslateblue;
+    border: 2px solid goldenrod;
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .champ-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(218,165,32,0.4);
+  }
+  .champ-icon {
+    width: 46px; height: 46px;
+    border-radius: 9px;
+    border: 2px solid goldenrod;
+    background: #555;
+    flex-shrink: 0;
+  }
+  .champ-top .champ-name { font-size: 1.05rem; font-weight: 700; flex: 1; }
+  .cost-badge {
+    font-size: 0.72rem; font-weight: 700;
+    padding: 2px 9px; border-radius: 20px;
+    color: #fff;
+  }
+
+  /* Trait badges row */
+  .champ-traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 8px 14px;
+    border-bottom: 1px solid rgba(218,165,32,0.2);
+  }
+  .trait-pill {
+    font-size: 0.68rem;
+    padding: 2px 9px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  /* Key stats as a row */
+  .champ-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: 1px solid rgba(218,165,32,0.2);
+  }
+  .stat-cell {
+    padding: 8px 6px;
+    text-align: center;
+    border-right: 1px solid rgba(218,165,32,0.15);
+  }
+  .stat-cell:last-child { border-right: none; }
+  .stat-cell .s-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: goldenrod;
+    display: block;
+  }
+  .stat-cell .s-val {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: aliceblue;
+  }
+
+  /* Ability row */
+  .champ-ability {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    flex: 1;
+  }
+  .ability-icon {
+    width: 34px; height: 34px;
+    border-radius: 7px;
+    border: 1.5px solid goldenrod;
+    background: #444;
+    flex-shrink: 0;
+  }
+  .ability-text .ability-name {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: goldenrod;
+    margin-bottom: 3px;
+  }
+  .ability-text .ability-desc {
+    font-size: 0.75rem;
+    line-height: 1.45;
+    opacity: 0.82;
+  }
+
+  /* ── Trait panel ── */
+  .trait-panel {
+    width: 240px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .trait-panel-header {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: goldenrod;
+    padding: 0 2px;
+  }
+
+  .trait-card {
+    background: darkslateblue;
+    border: 1.5px solid goldenrod;
+    border-radius: 12px;
+    padding: 13px 14px;
+  }
+  .trait-card h4 { font-size: 0.95rem; color: goldenrod; margin-bottom: 2px; }
+  .trait-card .scale {
+    font-size: 0.72rem;
+    color: lavender;
+    margin-bottom: 7px;
+    opacity: 0.85;
+  }
+  .trait-card p { font-size: 0.78rem; line-height: 1.45; opacity: 0.85; }
+</style>
+</head>
+<body>
+
+<!-- Top search bar -->
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-logo">TFT</div>
+    <h1>TFT Search</h1>
+  </div>
+  <div class="search-strip">
+    <div class="search-field-inline">
+      <label>Name</label>
+      <input type="text" placeholder="e.g. Ahri" />
+    </div>
+    <div class="search-field-inline">
+      <label>Skill</label>
+      <input type="text" placeholder="e.g. stun" />
+    </div>
+    <div class="search-field-inline">
+      <label>Trait</label>
+      <input type="text" placeholder="e.g. Sorcerer" />
+    </div>
+    <button class="btn-search">Search</button>
+  </div>
+</div>
+
+<!-- Body -->
+<div class="layout">
+
+  <!-- 2-column card grid -->
+  <div class="champion-grid">
+
+    <!-- Card: Ahri -->
+    <div class="champ-card">
+      <div class="champ-top">
+        <div class="champ-icon"></div>
+        <span class="champ-name">Ahri</span>
+        <span class="cost-badge" style="background:#007bff;">3g</span>
+      </div>
+      <div class="champ-traits">
+        <span class="trait-pill">Sorcerer</span>
+        <span class="trait-pill">Fated</span>
+      </div>
+      <div class="champ-stats">
+        <div class="stat-cell"><span class="s-label">HP</span><span class="s-val">700</span></div>
+        <div class="stat-cell"><span class="s-label">DMG</span><span class="s-val">50</span></div>
+        <div class="stat-cell"><span class="s-label">Atk Spd</span><span class="s-val">75%</span></div>
+        <div class="stat-cell"><span class="s-label">Range</span><span class="s-val">4</span></div>
+      </div>
+      <div class="champ-ability">
+        <div class="ability-icon"></div>
+        <div class="ability-text">
+          <div class="ability-name">Orb of Deception</div>
+          <div class="ability-desc">Sends an arcane orb that deals magic damage out and back.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: Yasuo -->
+    <div class="champ-card">
+      <div class="champ-top">
+        <div class="champ-icon"></div>
+        <span class="champ-name">Yasuo</span>
+        <span class="cost-badge" style="background:#28a745;">2g</span>
+      </div>
+      <div class="champ-traits">
+        <span class="trait-pill">Challenger</span>
+        <span class="trait-pill">Wanderer</span>
+      </div>
+      <div class="champ-stats">
+        <div class="stat-cell"><span class="s-label">HP</span><span class="s-val">850</span></div>
+        <div class="stat-cell"><span class="s-label">DMG</span><span class="s-val">65</span></div>
+        <div class="stat-cell"><span class="s-label">Atk Spd</span><span class="s-val">80%</span></div>
+        <div class="stat-cell"><span class="s-label">Range</span><span class="s-val">1</span></div>
+      </div>
+      <div class="champ-ability">
+        <div class="ability-icon"></div>
+        <div class="ability-text">
+          <div class="ability-name">Last Breath</div>
+          <div class="ability-desc">Dashes to the largest group, dealing physical damage and knocking up enemies.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: Lux -->
+    <div class="champ-card">
+      <div class="champ-top">
+        <div class="champ-icon"></div>
+        <span class="champ-name">Lux</span>
+        <span class="cost-badge" style="background:#dc3545;">4g</span>
+      </div>
+      <div class="champ-traits">
+        <span class="trait-pill">Sorcerer</span>
+        <span class="trait-pill">Demacia</span>
+      </div>
+      <div class="champ-stats">
+        <div class="stat-cell"><span class="s-label">HP</span><span class="s-val">900</span></div>
+        <div class="stat-cell"><span class="s-label">DMG</span><span class="s-val">55</span></div>
+        <div class="stat-cell"><span class="s-label">Atk Spd</span><span class="s-val">70%</span></div>
+        <div class="stat-cell"><span class="s-label">Range</span><span class="s-val">5</span></div>
+      </div>
+      <div class="champ-ability">
+        <div class="ability-icon"></div>
+        <div class="ability-text">
+          <div class="ability-name">Final Spark</div>
+          <div class="ability-desc">Fires a massive beam of light, dealing massive magic damage to all enemies in a line.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: Jinx -->
+    <div class="champ-card">
+      <div class="champ-top">
+        <div class="champ-icon"></div>
+        <span class="champ-name">Jinx</span>
+        <span class="cost-badge" style="background:#6c757d;">1g</span>
+      </div>
+      <div class="champ-traits">
+        <span class="trait-pill">Zaun</span>
+        <span class="trait-pill">Gunner</span>
+      </div>
+      <div class="champ-stats">
+        <div class="stat-cell"><span class="s-label">HP</span><span class="s-val">500</span></div>
+        <div class="stat-cell"><span class="s-label">DMG</span><span class="s-val">45</span></div>
+        <div class="stat-cell"><span class="s-label">Atk Spd</span><span class="s-val">90%</span></div>
+        <div class="stat-cell"><span class="s-label">Range</span><span class="s-val">5</span></div>
+      </div>
+      <div class="champ-ability">
+        <div class="ability-icon"></div>
+        <div class="ability-text">
+          <div class="ability-name">Super Mega Death Rocket</div>
+          <div class="ability-desc">Launches a rocket that deals damage to all enemies based on their missing health.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- Trait panel -->
+  <div class="trait-panel">
+    <div class="trait-panel-header">Traits</div>
+
+    <div class="trait-card">
+      <h4>Sorcerer</h4>
+      <div class="scale">2 / 4 / 6 / 8</div>
+      <p>Your team's Sorcerers gain bonus Ability Power and deal more spell damage.</p>
+    </div>
+
+    <div class="trait-card">
+      <h4>Challenger</h4>
+      <div class="scale">2 / 4 / 6</div>
+      <p>Challengers gain Attack Speed after takedowns, stacking for the rest of combat.</p>
+    </div>
+
+    <div class="trait-card">
+      <h4>Gunner</h4>
+      <div class="scale">2 / 4 / 6</div>
+      <p>Gunners gain bonus Attack Damage that grows with each attack they fire.</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
