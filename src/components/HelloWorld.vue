@@ -48,7 +48,7 @@
                 <div class="champion-card" v-for="c in model.selectedChampions" :key="c.name">
 
                     <div class="card-header">
-                        <img class="champ-icon" :src="c.icon" width="52" height="52" />
+                        <img class="champ-icon" :src="c.squareIcon" width="52" height="52" />
                         <span class="champ-name">{{ c.name }}</span>
                         <div class="traits-inline">
                             <span class="trait-badge" v-for="t in c.traits" :key="t">{{ t }}</span>
