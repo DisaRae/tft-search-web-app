@@ -15,15 +15,15 @@
             <div class="command-bar">
                 <div class="cmd-field">
                     <label>Name</label>
-                    <input type="text" v-model="model.searchName" v-on:blur="model.getChampionsByName" placeholder="e.g. Ahri" />
+                    <input type="text" v-model="model.searchName" v-on:blur="model.getChampionsByName" @keyup.enter="search()" placeholder="e.g. Ahri" />
                 </div>
                 <div class="cmd-field">
                     <label>Skill Keyword</label>
-                    <input type="text" v-model="model.searchSkillDescription" v-on:blur="model.getChampionsBySkillKeyword" placeholder="e.g. stun" />
+                    <input type="text" v-model="model.searchSkillDescription" v-on:blur="model.getChampionsBySkillKeyword" @keyup.enter="search()" placeholder="e.g. stun" />
                 </div>
                 <div class="cmd-field">
                     <label>Trait</label>
-                    <input type="text" v-model="model.searchTraits" v-on:blur="model.getChampionsByTrait" placeholder="e.g. Sorcerer" />
+                    <input type="text" v-model="model.searchTraits" v-on:blur="model.getChampionsByTrait" @keyup.enter="search()" placeholder="e.g. Sorcerer" />
                 </div>
                 <button class="btn-search" @click="search()">Search</button>
             </div>
@@ -48,7 +48,7 @@
                 <div class="champion-card" v-for="c in model.selectedChampions" :key="c.name">
 
                     <div class="card-header">
-                        <img class="champ-icon" :src="c.icon" width="52" height="52" />
+                        <img class="champ-icon" :src="c.squareIcon" width="52" height="52" />
                         <span class="champ-name">{{ c.name }}</span>
                         <div class="traits-inline">
                             <span class="trait-badge" v-for="t in c.traits" :key="t">{{ t }}</span>
