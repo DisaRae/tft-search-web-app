@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Design 1 – Sidebar Layout</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Avenir, Helvetica, Arial, sans-serif;
+    background-color: teal;
+    color: aliceblue;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Top bar ── */
+  header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 28px;
+    background: darkslateblue;
+    border-bottom: 3px solid goldenrod;
+  }
+  header img { height: 52px; border-radius: 12px; border: 2px solid goldenrod; }
+  header h1 { font-size: 1.4rem; color: goldenrod; letter-spacing: 1px; }
+
+  /* ── Body shell ── */
+  .shell {
+    display: flex;
+    flex: 1;
+  }
+
+  /* ── Sidebar ── */
+  aside {
+    width: 280px;
+    flex-shrink: 0;
+    background: #006666; /* slightly darker teal */
+    border-right: 3px solid goldenrod;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .sidebar-section h3 {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: goldenrod;
+    margin-bottom: 8px;
+  }
+
+  .search-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .search-field label { font-size: 0.8rem; color: aliceblue; opacity: 0.8; }
+  .search-field input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1.5px solid goldenrod;
+    background: rgba(0,0,0,0.25);
+    color: aliceblue;
+    font-size: 0.9rem;
+    outline: none;
+  }
+  .search-field input:focus { border-color: aliceblue; }
+
+  .btn-search {
+    margin-top: 4px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: goldenrod;
+    color: darkslateblue;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+  }
+  .btn-search:hover { background: aliceblue; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(218,165,32,0.35);
+  }
+
+  /* Trait cards in sidebar */
+  .trait-card {
+    background: darkslateblue;
+    border: 1.5px solid goldenrod;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .trait-card h4 { font-size: 0.95rem; color: goldenrod; margin-bottom: 4px; }
+  .trait-card .scale { font-size: 0.75rem; color: lavender; margin-bottom: 6px; }
+  .trait-card p { font-size: 0.8rem; line-height: 1.4; color: aliceblue; opacity: 0.85; }
+
+  /* ── Main content ── */
+  main {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* ── Champion card ── */
+  .champion-card {
+    background: darkslateblue;
+    border: 2px solid goldenrod;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 18px;
+    background: rgba(0,0,0,0.3);
+    border-bottom: 1.5px solid goldenrod;
+  }
+  .card-header img {
+    width: 52px; height: 52px;
+    border-radius: 10px;
+    border: 2px solid goldenrod;
+    flex-shrink: 0;
+  }
+  .card-header .champ-name { font-size: 1.2rem; font-weight: 700; flex: 1; }
+  .cost-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    color: #fff;
+  }
+
+  .card-body {
+    display: flex;
+    gap: 0;
+  }
+
+  /* Stats column */
+  .stat-col {
+    flex: 1;
+    padding: 16px 18px;
+    border-right: 1px solid rgba(218,165,32,0.3);
+  }
+  .stat-col h5 {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: goldenrod;
+    margin-bottom: 10px;
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px 12px;
+  }
+  .stat-item {
+    font-size: 0.82rem;
+    background: rgba(230,230,250,0.12);
+    border-radius: 6px;
+    padding: 4px 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .stat-item span:first-child { color: lavender; opacity: 0.8; }
+  .stat-item span:last-child { color: aliceblue; font-weight: 600; }
+
+  /* Ability column */
+  .ability-col {
+    flex: 1;
+    padding: 16px 18px;
+  }
+  .ability-col h5 {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: goldenrod;
+    margin-bottom: 10px;
+  }
+  .ability-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .ability-header img {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    border: 1.5px solid goldenrod;
+    background: #444;
+  }
+  .ability-header .ability-name { font-size: 0.95rem; font-weight: 600; }
+  .ability-desc { font-size: 0.82rem; line-height: 1.5; opacity: 0.85; }
+
+  .traits-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 18px;
+    border-top: 1px solid rgba(218,165,32,0.3);
+  }
+  .trait-badge {
+    font-size: 0.72rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <!-- Placeholder logo box -->
+  <div style="width:52px;height:52px;background:goldenrod;border-radius:12px;border:2px solid goldenrod;display:flex;align-items:center;justify-content:center;font-weight:900;color:darkslateblue;font-size:1.1rem;">TFT</div>
+  <h1>TFT Search</h1>
+</header>
+
+<div class="shell">
+
+  <!-- Sidebar -->
+  <aside>
+    <div class="sidebar-section">
+      <h3>Search</h3>
+      <div class="search-field">
+        <label>Name</label>
+        <input type="text" placeholder="e.g. Ahri" />
+      </div>
+      <div class="search-field">
+        <label>Skill Keyword</label>
+        <input type="text" placeholder="e.g. stun" />
+      </div>
+      <div class="search-field">
+        <label>Trait</label>
+        <input type="text" placeholder="e.g. Sorcerer" />
+      </div>
+      <button class="btn-search">Search</button>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="sidebar-section">
+      <h3>Traits</h3>
+
+      <div class="trait-card">
+        <h4>Sorcerer</h4>
+        <div class="scale">2 / 4 / 6 / 8</div>
+        <p>Your team's Sorcerers gain bonus Ability Power and deal more spell damage.</p>
+      </div>
+
+      <div class="trait-card">
+        <h4>Challenger</h4>
+        <div class="scale">2 / 4 / 6</div>
+        <p>Challengers gain Attack Speed after takedowns, stacking for the rest of combat.</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main>
+
+    <!-- Champion Card 1 -->
+    <div class="champion-card">
+      <div class="card-header">
+        <div style="width:52px;height:52px;background:#555;border-radius:10px;border:2px solid goldenrod;"></div>
+        <span class="champ-name">Ahri</span>
+        <span class="cost-badge" style="background:#007bff;">3g</span>
+      </div>
+      <div class="card-body">
+        <div class="stat-col">
+          <h5>Base Stats</h5>
+          <div class="stat-grid">
+            <div class="stat-item"><span>HP</span><span>700</span></div>
+            <div class="stat-item"><span>Damage</span><span>50</span></div>
+            <div class="stat-item"><span>Armor</span><span>30</span></div>
+            <div class="stat-item"><span>MR</span><span>30</span></div>
+            <div class="stat-item"><span>Atk Spd</span><span>75%</span></div>
+            <div class="stat-item"><span>Crit</span><span>25%</span></div>
+            <div class="stat-item"><span>Mana</span><span>40/80</span></div>
+            <div class="stat-item"><span>Range</span><span>4</span></div>
+          </div>
+        </div>
+        <div class="ability-col">
+          <h5>Ability</h5>
+          <div class="ability-header">
+            <div style="width:40px;height:40px;background:#555;border-radius:8px;border:1.5px solid goldenrod;"></div>
+            <span class="ability-name">Orb of Deception</span>
+          </div>
+          <div class="ability-desc">
+            Ahri sends an orb of arcane energy that deals magic damage on the way out, then pulls it back dealing magic damage again on return.
+          </div>
+        </div>
+      </div>
+      <div class="traits-row">
+        <span class="trait-badge">Sorcerer</span>
+        <span class="trait-badge">Fated</span>
+      </div>
+    </div>
+
+    <!-- Champion Card 2 -->
+    <div class="champion-card">
+      <div class="card-header">
+        <div style="width:52px;height:52px;background:#555;border-radius:10px;border:2px solid goldenrod;"></div>
+        <span class="champ-name">Yasuo</span>
+        <span class="cost-badge" style="background:#28a745;">2g</span>
+      </div>
+      <div class="card-body">
+        <div class="stat-col">
+          <h5>Base Stats</h5>
+          <div class="stat-grid">
+            <div class="stat-item"><span>HP</span><span>850</span></div>
+            <div class="stat-item"><span>Damage</span><span>65</span></div>
+            <div class="stat-item"><span>Armor</span><span>40</span></div>
+            <div class="stat-item"><span>MR</span><span>40</span></div>
+            <div class="stat-item"><span>Atk Spd</span><span>80%</span></div>
+            <div class="stat-item"><span>Crit</span><span>25%</span></div>
+            <div class="stat-item"><span>Mana</span><span>30/70</span></div>
+            <div class="stat-item"><span>Range</span><span>1</span></div>
+          </div>
+        </div>
+        <div class="ability-col">
+          <h5>Ability</h5>
+          <div class="ability-header">
+            <div style="width:40px;height:40px;background:#555;border-radius:8px;border:1.5px solid goldenrod;"></div>
+            <span class="ability-name">Last Breath</span>
+          </div>
+          <div class="ability-desc">
+            Yasuo dashes to the largest group of enemies and unleashes a flurry of wind slashes, dealing physical damage and knocking up enemies briefly.
+          </div>
+        </div>
+      </div>
+      <div class="traits-row">
+        <span class="trait-badge">Challenger</span>
+        <span class="trait-badge">Wanderer</span>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

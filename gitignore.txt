@@ -29,6 +29,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Dd]ist/
+node_modules/
 
 # local env files
 .env.local
@@ -56,6 +57,7 @@ yarn-error.log*
 #Nations specific
 obj/
 bin/
+dist/
 Externals/
 .svn/
 
@@ -73,18 +75,6 @@ Externals/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
-
-# Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-bld/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -159,6 +149,7 @@ ipch/
 *.cachefile
 *.VC.db
 *.VC.VC.opendb
+*.cache
 
 # Visual Studio profiler
 *.psess

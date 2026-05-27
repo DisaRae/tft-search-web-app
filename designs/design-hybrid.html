@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Design – Hybrid</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Avenir, Helvetica, Arial, sans-serif;
+    background: teal;
+    color: aliceblue;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ════════════════════════════════
+     HEADER (Design 3)
+  ════════════════════════════════ */
+  header {
+    padding: 20px 28px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .brand-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .brand-logo {
+    width: 56px; height: 56px;
+    background: goldenrod;
+    border-radius: 14px;
+    box-shadow: 0 0 18px rgba(218,165,32,0.4);
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .brand-logo img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    /* brightness(0) collapses image to black, then sepia+hue-rotate+saturate shifts to darkslateblue */
+    filter: brightness(0) saturate(100%) invert(20%) sepia(45%) saturate(900%) hue-rotate(215deg) brightness(88%);
+  }
+  .brand-text h1 {
+    font-size: 1.6rem;
+    color: goldenrod;
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+  .brand-text p {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    opacity: 0.55;
+    margin-top: 3px;
+  }
+
+  /* Command bar */
+  .command-bar {
+    display: flex;
+    align-items: stretch;
+    background: rgba(72,61,139,0.75);
+    border: 2px solid goldenrod;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .cmd-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    flex: 1;
+    border-right: 1px solid rgba(218,165,32,0.3);
+  }
+  .cmd-field label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: goldenrod;
+    white-space: nowrap;
+  }
+  .cmd-field input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: aliceblue;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+  .cmd-field input::placeholder { opacity: 0.38; }
+  .btn-search {
+    padding: 0 30px;
+    border: none;
+    background: goldenrod;
+    color: darkslateblue;
+    font-weight: 800;
+    font-size: 0.9rem;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .btn-search:hover { background: aliceblue; }
+
+  /* Gold rule */
+  .gold-rule {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, goldenrod 20%, goldenrod 80%, transparent);
+    margin: 14px 28px 0;
+  }
+
+  /* ════════════════════════════════
+     BODY SHELL
+  ════════════════════════════════ */
+  .shell {
+    display: flex;
+    flex: 1;
+  }
+
+  /* ════════════════════════════════
+     SIDEBAR — traits only (Design 1)
+  ════════════════════════════════ */
+  aside {
+    width: 270px;
+    flex-shrink: 0;
+    background: #006666;
+    border-right: 3px solid goldenrod;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sidebar-section-title {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: goldenrod;
+    margin-bottom: 4px;
+  }
+
+  .trait-card {
+    background: darkslateblue;
+    border: 1.5px solid goldenrod;
+    border-radius: 12px;
+    padding: 13px 14px;
+  }
+  .trait-card h4 {
+    font-size: 0.95rem;
+    color: goldenrod;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .trait-scale {
+    font-size: 0.72rem;
+    color: lavender;
+    opacity: 0.85;
+    margin-bottom: 6px;
+  }
+  .trait-card p {
+    font-size: 0.78rem;
+    line-height: 1.45;
+    opacity: 0.82;
+  }
+
+  /* ════════════════════════════════
+     MAIN — champion cards (Design 1)
+  ════════════════════════════════ */
+  main {
+    flex: 1;
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+  }
+
+  /* ── Champion card ── */
+  .champion-card {
+    background: darkslateblue;
+    border: 2px solid goldenrod;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  /* Card header: icon · name · traits · cost */
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 12px 18px;
+    background: rgba(0,0,0,0.3);
+    border-bottom: 1.5px solid goldenrod;
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+  .champ-icon {
+    width: 52px; height: 52px;
+    border-radius: 10px;
+    border: 2px solid goldenrod;
+    background: #555;
+    flex-shrink: 0;
+    margin-right: 14px;
+  }
+  .champ-name {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-right: 12px;
+  }
+  /* Trait badges sit right after the name */
+  .traits-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    flex: 1;
+  }
+  .trait-badge {
+    font-size: 0.68rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.13);
+    border: 1px solid rgba(255,255,255,0.25);
+  }
+  .cost-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 11px;
+    border-radius: 20px;
+    color: #fff;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* Card body: stats left, ability right */
+  .card-body {
+    display: flex;
+  }
+
+  .stat-col {
+    flex: 1;
+    padding: 16px 18px;
+    border-right: 1px solid rgba(218,165,32,0.25);
+  }
+  .stat-col-title {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: goldenrod;
+    margin-bottom: 10px;
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px 10px;
+  }
+  .stat-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    background: rgba(230,230,250,0.1);
+    border-radius: 6px;
+    padding: 4px 8px;
+  }
+  .stat-item .s-label { color: lavender; opacity: 0.8; }
+  .stat-item .s-val   { font-weight: 600; }
+  .stat-item--role .s-val { color: goldenrod; font-style: italic; }
+
+  .ability-col {
+    flex: 1;
+    padding: 16px 18px;
+  }
+  .ability-col-title {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: goldenrod;
+    margin-bottom: 10px;
+  }
+  .ability-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .ability-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    border: 1.5px solid goldenrod;
+    background: #555;
+    flex-shrink: 0;
+  }
+  .ability-name { font-size: 0.95rem; font-weight: 700; }
+  .ability-desc { font-size: 0.8rem; line-height: 1.5; opacity: 0.82; }
+</style>
+</head>
+<body>
+
+<!-- ── Header (Design 3) ── -->
+<header>
+  <div class="brand-row">
+    <div class="brand-logo"><img src="/src/assets/logo.png" alt="logo" /></div>
+    <div class="brand-text">
+      <h1>TFT Search</h1>
+      <p>Champion &amp; Trait Database</p>
+    </div>
+  </div>
+  <div class="command-bar">
+    <div class="cmd-field">
+      <label>Name</label>
+      <input type="text" placeholder="e.g. Ahri" />
+    </div>
+    <div class="cmd-field">
+      <label>Skill Keyword</label>
+      <input type="text" placeholder="e.g. stun" />
+    </div>
+    <div class="cmd-field">
+      <label>Trait</label>
+      <input type="text" placeholder="e.g. Sorcerer" />
+    </div>
+    <button class="btn-search">Search</button>
+  </div>
+</header>
+
+<div class="gold-rule"></div>
+
+<div class="shell">
+
+  <!-- ── Sidebar: traits only (Design 1) ── -->
+  <aside>
+    <div class="sidebar-section-title">Traits</div>
+
+    <div class="trait-card">
+      <h4>Sorcerer</h4>
+      <div class="trait-scale">2 / 4 / 6 / 8</div>
+      <p>Your team's Sorcerers gain bonus Ability Power and deal more spell damage.</p>
+    </div>
+
+    <div class="trait-card">
+      <h4>Challenger</h4>
+      <div class="trait-scale">2 / 4 / 6</div>
+      <p>Challengers gain Attack Speed after takedowns, stacking for the rest of combat.</p>
+    </div>
+
+    <div class="trait-card">
+      <h4>Fated</h4>
+      <div class="trait-scale">2 / 4 / 6</div>
+      <p>Fated champions share their unique buffs with one chosen ally each round.</p>
+    </div>
+
+    <div class="trait-card">
+      <h4>Gunner</h4>
+      <div class="trait-scale">2 / 4 / 6</div>
+      <p>Gunners gain bonus Attack Damage that grows with each attack they fire.</p>
+    </div>
+  </aside>
+
+  <!-- ── Main: champion cards (Design 1, updated) ── -->
+  <main>
+
+    <!-- Card: Ahri -->
+    <div class="champion-card">
+      <div class="card-header">
+        <div class="champ-icon"></div>
+        <span class="champ-name">Ahri</span>
+        <div class="traits-inline">
+          <span class="trait-badge">Sorcerer</span>
+          <span class="trait-badge">Fated</span>
+        </div>
+        <span class="cost-badge" style="background:#007bff;">3</span>
+      </div>
+      <div class="card-body">
+        <div class="stat-col">
+          <div class="stat-col-title">Base Stats</div>
+          <div class="stat-grid">
+            <div class="stat-item stat-item--role"><span class="s-label">Role</span><span class="s-val">AP Caster</span></div>
+            <div class="stat-item"><span class="s-label">HP</span><span class="s-val">700</span></div>
+            <div class="stat-item"><span class="s-label">Damage</span><span class="s-val">50</span></div>
+            <div class="stat-item"><span class="s-label">Armor</span><span class="s-val">30</span></div>
+            <div class="stat-item"><span class="s-label">Magic Resist</span><span class="s-val">30</span></div>
+            <div class="stat-item"><span class="s-label">Atk Speed</span><span class="s-val">75%</span></div>
+            <div class="stat-item"><span class="s-label">Crit Chance</span><span class="s-val">25%</span></div>
+            <div class="stat-item"><span class="s-label">Crit Multi</span><span class="s-val">1.400</span></div>
+            <div class="stat-item"><span class="s-label">Mana</span><span class="s-val">40 / 80</span></div>
+            <div class="stat-item"><span class="s-label">Range</span><span class="s-val">4</span></div>
+          </div>
+        </div>
+        <div class="ability-col">
+          <div class="ability-col-title">Ability</div>
+          <div class="ability-header">
+            <div class="ability-icon"></div>
+            <span class="ability-name">Orb of Deception</span>
+          </div>
+          <div class="ability-desc">
+            Ahri sends an orb of arcane energy that deals magic damage on the way out, then pulls it back dealing magic damage again on return.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: Yasuo -->
+    <div class="champion-card">
+      <div class="card-header">
+        <div class="champ-icon"></div>
+        <span class="champ-name">Yasuo</span>
+        <div class="traits-inline">
+          <span class="trait-badge">Challenger</span>
+          <span class="trait-badge">Wanderer</span>
+        </div>
+        <span class="cost-badge" style="background:#28a745;">2</span>
+      </div>
+      <div class="card-body">
+        <div class="stat-col">
+          <div class="stat-col-title">Base Stats</div>
+          <div class="stat-grid">
+            <div class="stat-item stat-item--role"><span class="s-label">Role</span><span class="s-val">Carry</span></div>
+            <div class="stat-item"><span class="s-label">HP</span><span class="s-val">850</span></div>
+            <div class="stat-item"><span class="s-label">Damage</span><span class="s-val">65</span></div>
+            <div class="stat-item"><span class="s-label">Armor</span><span class="s-val">40</span></div>
+            <div class="stat-item"><span class="s-label">Magic Resist</span><span class="s-val">40</span></div>
+            <div class="stat-item"><span class="s-label">Atk Speed</span><span class="s-val">80%</span></div>
+            <div class="stat-item"><span class="s-label">Crit Chance</span><span class="s-val">25%</span></div>
+            <div class="stat-item"><span class="s-label">Crit Multi</span><span class="s-val">1.400</span></div>
+            <div class="stat-item"><span class="s-label">Mana</span><span class="s-val">30 / 70</span></div>
+            <div class="stat-item"><span class="s-label">Range</span><span class="s-val">1</span></div>
+          </div>
+        </div>
+        <div class="ability-col">
+          <div class="ability-col-title">Ability</div>
+          <div class="ability-header">
+            <div class="ability-icon"></div>
+            <span class="ability-name">Last Breath</span>
+          </div>
+          <div class="ability-desc">
+            Yasuo dashes to the largest group of enemies and unleashes a flurry of wind slashes, dealing physical damage and knocking up enemies briefly.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: Lux -->
+    <div class="champion-card">
+      <div class="card-header">
+        <div class="champ-icon"></div>
+        <span class="champ-name">Lux</span>
+        <div class="traits-inline">
+          <span class="trait-badge">Sorcerer</span>
+          <span class="trait-badge">Demacia</span>
+        </div>
+        <span class="cost-badge" style="background:#dc3545;">4</span>
+      </div>
+      <div class="card-body">
+        <div class="stat-col">
+          <div class="stat-col-title">Base Stats</div>
+          <div class="stat-grid">
+            <div class="stat-item stat-item--role"><span class="s-label">Role</span><span class="s-val">AP Caster</span></div>
+            <div class="stat-item"><span class="s-label">HP</span><span class="s-val">900</span></div>
+            <div class="stat-item"><span class="s-label">Damage</span><span class="s-val">55</span></div>
+            <div class="stat-item"><span class="s-label">Armor</span><span class="s-val">25</span></div>
+            <div class="stat-item"><span class="s-label">Magic Resist</span><span class="s-val">25</span></div>
+            <div class="stat-item"><span class="s-label">Atk Speed</span><span class="s-val">70%</span></div>
+            <div class="stat-item"><span class="s-label">Crit Chance</span><span class="s-val">25%</span></div>
+            <div class="stat-item"><span class="s-label">Crit Multi</span><span class="s-val">1.400</span></div>
+            <div class="stat-item"><span class="s-label">Mana</span><span class="s-val">50 / 100</span></div>
+            <div class="stat-item"><span class="s-label">Range</span><span class="s-val">5</span></div>
+          </div>
+        </div>
+        <div class="ability-col">
+          <div class="ability-col-title">Ability</div>
+          <div class="ability-header">
+            <div class="ability-icon"></div>
+            <span class="ability-name">Final Spark</span>
+          </div>
+          <div class="ability-desc">
+            Lux fires a massive laser beam of light that deals enormous magic damage to all enemies caught in its path.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

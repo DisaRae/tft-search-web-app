@@ -1,231 +1,461 @@
 <template>
-    <div class="hello">
-        <h2>{{ msg }}</h2>
-        <div class="col-md-12">
-            <div class="row search-bar">
-                <div class="col-md-3">
-                    Name:
-                    <input class="col-md-4" v-model="model.searchName" v-on:blur="model.getChampionsByName" />
+    <div class="app-shell">
+
+        <!-- Header -->
+        <header class="app-header">
+            <div class="brand-row">
+                <div class="brand-logo">
+                    <img alt="logo" src="../assets/logo.png" />
                 </div>
-                <div class="col-md-3">
-                    Skill Keyword:
-                    <input class="col-md-4" v-model="model.searchSkillDescription" v-on:blur="model.getChampionsBySkillKeyword" />
-                </div>
-                <div class="col-md-3">
-                    Trait:
-                    <input class="col-md-4" v-model="model.searchTraits" v-on:blur="model.getChampionsByTrait" />
-                </div>
-                <div class="col-md-3">
-                    <button class="btn btn-navigation" @click="search()"> Search  </button>
+                <div class="brand-text">
+                    <h1>TFT Search</h1>
+                    <p>Champion &amp; Trait Database</p>
                 </div>
             </div>
-        </div>
+            <div class="command-bar">
+                <div class="cmd-field">
+                    <label>Name</label>
+                    <input type="text" v-model="model.searchName" v-on:blur="model.getChampionsByName" placeholder="e.g. Ahri" />
+                </div>
+                <div class="cmd-field">
+                    <label>Skill Keyword</label>
+                    <input type="text" v-model="model.searchSkillDescription" v-on:blur="model.getChampionsBySkillKeyword" placeholder="e.g. stun" />
+                </div>
+                <div class="cmd-field">
+                    <label>Trait</label>
+                    <input type="text" v-model="model.searchTraits" v-on:blur="model.getChampionsByTrait" placeholder="e.g. Sorcerer" />
+                </div>
+                <button class="btn-search" @click="search()">Search</button>
+            </div>
+        </header>
 
-        <div class="row">
+        <div class="gold-rule"></div>
 
-            <div class="col-md-8">
+        <div class="shell">
 
-                <div class="champion-data col-md-12" v-for="c in model.selectedChampions"
-                     :accesskey="c.name"
-                     :value="c">
-                    <div class="col-md-12 ability-header">
-                        <h2 v-html="costSpan(c.name, c.icon, c.cost)" />
+            <!-- Sidebar: traits only -->
+            <aside class="trait-sidebar">
+                <div class="sidebar-section-title">Traits</div>
+                <div class="trait-card" v-for="t in model.selectedTraits" :key="t.name">
+                    <h4>{{ t.name }}</h4>
+                    <div class="trait-scale">{{ t.unitScale }}</div>
+                    <p>{{ t.description }}</p>
+                </div>
+            </aside>
+
+            <!-- Main: champion cards -->
+            <main class="champion-main">
+                <div class="champion-card" v-for="c in model.selectedChampions" :key="c.name">
+
+                    <div class="card-header">
+                        <img class="champ-icon" :src="c.icon" width="52" height="52" />
+                        <span class="champ-name">{{ c.name }}</span>
+                        <div class="traits-inline">
+                            <span class="trait-badge" v-for="t in c.traits" :key="t">{{ t }}</span>
+                        </div>
+                        <span class="cost-badge" :style="{ backgroundColor: costColor(c.cost) }">{{ c.cost }}</span>
                     </div>
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="col-md-12 stat-box">
-                                    <div class="col-md-12">Armor: {{c.stats.armor}} </div>
-                                    <div class="col-md-12">Attack Speed: {{roundToPercent(c.stats.attackSpeed)}}%</div>
-                                    <div class="col-md-12">Crit Chance: {{roundToPercent(c.stats.critChance)}}%</div>
-                                    <div class="col-md-12">Crit Multiplier: {{round(c.stats.critMultiplier)}}</div>
-                                    <div class="col-md-12">Damage: {{c.stats.damage}}</div>
-                                    <div class="col-md-12">HP: {{c.stats.hp}}</div>
-                                    <div class="col-md-12">Initial Mana: {{c.stats.initialMana}}</div>
-                                    <div class="col-md-12">Magic Resist: {{c.stats.magicResist}}</div>
-                                    <div class="col-md-12">Mana: {{c.stats.mana}}</div>
-                                    <div class="col-md-12">Range: {{c.stats.range}}</div>
-                                </div>
-                            </div>
-                            <div class="col-md-6" style="align-items:start !important;">
-                                <div class="col-md-12 skill-box">
-                                    <div class="row" style="margin-bottom: 20px;">
-                                        <div class="col-md-2" v-for="t in c.traits"
-                                             :accesskey="t"
-                                             :value="t">
-                                            <span class="badge" style="background-color: gray;">{{t}}</span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12 ability-header">
-                                            <img class="champion-icon" :src="c.ability.icon" height="50" width="50" />
-                                            <h4>{{c.ability.name}}</h4>
-                                        </div>
-                                        <div v-html="span(c.ability.desc)" class="col-md-12" style="padding-left:100px;" />
-                                    </div>
-                                </div>
+
+                    <div class="card-body">
+                        <div class="stat-col">
+                            <div class="stat-col-title">Base Stats</div>
+                            <div class="stat-grid">
+                                <div class="stat-item stat-item--role"><span class="s-label">Role</span><span class="s-val">{{ c.role }}</span></div>
+                                <div class="stat-item"><span class="s-label">HP</span><span class="s-val">{{ c.stats.hp }}</span></div>
+                                <div class="stat-item"><span class="s-label">Damage</span><span class="s-val">{{ c.stats.damage }}</span></div>
+                                <div class="stat-item"><span class="s-label">Armor</span><span class="s-val">{{ c.stats.armor }}</span></div>
+                                <div class="stat-item"><span class="s-label">Magic Resist</span><span class="s-val">{{ c.stats.magicResist }}</span></div>
+                                <div class="stat-item"><span class="s-label">Atk Speed</span><span class="s-val">{{ roundToPercent(c.stats.attackSpeed) }}%</span></div>
+                                <div class="stat-item"><span class="s-label">Crit Chance</span><span class="s-val">{{ roundToPercent(c.stats.critChance) }}%</span></div>
+                                <div class="stat-item"><span class="s-label">Crit Multi</span><span class="s-val">{{ round(c.stats.critMultiplier) }}</span></div>
+                                <div class="stat-item"><span class="s-label">Mana</span><span class="s-val">{{ c.stats.initialMana }} / {{ c.stats.mana }}</span></div>
+                                <div class="stat-item"><span class="s-label">Range</span><span class="s-val">{{ c.stats.range }}</span></div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-md-4">
-
-                <div class="trait-data col-md-12" v-for="c in model.selectedTraits"
-                     :accesskey="c.name"
-                     :value="c">
-                    <div class="row">
-                        <div class="col-md-12 stat-box">
-                            <h2>{{c.name}}</h2>
-                            <h4>{{c.unitScale}}</h4>
-                            {{c.description}}
+                        <div class="ability-col">
+                            <div class="ability-col-title">Ability</div>
+                            <div class="ability-header-row">
+                                <img class="ability-icon" :src="c.ability.icon" width="40" height="40" />
+                                <span class="ability-name">{{ c.ability.name }}</span>
+                            </div>
+                            <div class="ability-desc" v-html="c.ability.desc"></div>
                         </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
+            </main>
 
         </div>
-
     </div>
 </template>
 
 <script>
-    import { ref, reactive } from 'vue';
+    import { reactive } from 'vue';
     import state from '@/state';
+
     export default {
         name: 'HelloWorld',
         props: {
             msg: String
         },
         methods: {
-            span(text) {
-                return `<span> ${text} </span>`
+            search() {
+                if (this.model.searchName.trim() !== '') {
+                    this.model.getChampionsByName();
+                } else if (this.model.searchSkillDescription.trim() !== '') {
+                    this.model.getChampionsBySkillKeyword();
+                } else if (this.model.searchTraits.trim() !== '') {
+                    this.model.getChampionsByTrait();
+                } else {
+                    this.model.selectedChampions = this.model.champions;
+                }
             },
-            costSpan(name, icon, cost) {
-                var badgeCss = '';
-                if (cost == 1)
-                    badgeCss = '#6c757d';
-                else if (cost == 2)
-                    badgeCss = '#28a745';
-                else if (cost == 3)
-                    badgeCss = '#007bff';
-                else if (cost == 4)
-                    badgeCss = '#dc3545';
-                else if (cost == 5)
-                    badgeCss = '#ffc107';
-                //return `<span class="badge" style="background-color: ${badgeCss};"> ${cost} </span>`;
-                return `
-                    <img class="champion-icon" src="${icon}" height="50" width="50" style="border: 3px solid goldenrod; border-radius: 25px;" />
-                    ${name}
-                    <span class="badge" style="background-color: ${badgeCss}; float: right;"> ${cost} </span>`
+            costColor(cost) {
+                if (cost == 1) return '#6c757d';
+                if (cost == 2) return '#28a745';
+                if (cost == 3) return '#007bff';
+                if (cost == 4) return '#dc3545';
+                if (cost == 5) return '#ffc107';
+                return '#6c757d';
             },
             roundToPercent(number) {
-                var temp = Math.round(number * 100);
-                return temp;
+                return Math.round(number * 100);
             },
             round(number) {
-                var temp = Math.round(number * 1000)/1000;
-                return temp;
+                return Math.round(number * 1000) / 1000;
             },
         },
-        setup(methods) {
+        setup() {
             const model = reactive(state.viewModel);
             model.getAllChampions();
             model.getAllTraits();
-            return {
-                model,
-                methods,
-            }
+            return { model };
         }
     }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    h3 {
-        margin: 40px 0 0;
+    *, *::before, *::after { box-sizing: border-box; }
+
+    /* ── Shell ── */
+    .app-shell {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
     }
 
-    ul {
-        list-style: inside;
-        list-style-type: disc;
-        padding: 0;
+    /* ── Header ── */
+    .app-header {
+        padding: 20px 28px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
     }
 
-    li {
-        display: inline-block;
-        margin: 0 10px;
+    .brand-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
     }
 
-    a {
-        color: #42b983;
+    .brand-logo {
+        width: 56px;
+        height: 56px;
+        background: goldenrod;
+        border-radius: 14px;
+        box-shadow: 0 0 18px rgba(218,165,32,0.4);
+        flex-shrink: 0;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .stat-box {
-        text-align: left;
-        border: 3px solid lavender;
-        border-radius: 25px;
-        padding: 10px;
-        margin: 10px;
-        background-color: lavender;
-        color: darkslateblue;
+    .brand-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        /* collapses image to black then shifts hue to darkslateblue */
+        filter: brightness(0) saturate(100%) invert(20%) sepia(45%) saturate(900%) hue-rotate(215deg) brightness(88%);
     }
 
-    .skill-box {
-        align-items:start !important;
+    .brand-text h1 {
+        font-size: 1.6rem;
+        color: goldenrod;
+        letter-spacing: 2px;
+        line-height: 1;
+        margin: 0;
     }
 
-    .champion-data {
-        text-align: left;
-        border: 3px solid goldenrod;
-        border-radius: 25px;
-        padding: 10px;
-        margin: 10px;
-        background-color:darkslateblue;
+    .brand-text p {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        opacity: 0.55;
+        margin: 3px 0 0;
     }
 
-    .champion-data h2 {
-        text-align:center;
-        font-weight: bold;
-        margin-top: 0px;
+    /* ── Command bar ── */
+    .command-bar {
+        display: flex;
+        align-items: stretch;
+        background: rgba(72,61,139,0.75);
+        border: 2px solid goldenrod;
+        border-radius: 12px;
+        overflow: hidden;
     }
 
-    .hello {
-        background-color: teal;
+    .cmd-field {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 18px;
+        flex: 1;
+        border-right: 1px solid rgba(218,165,32,0.3);
+    }
+
+    .cmd-field label {
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: goldenrod;
+        white-space: nowrap;
+    }
+
+    .cmd-field input {
+        background: transparent;
+        border: none;
+        outline: none;
         color: aliceblue;
-        margin: 0px 50px 50px 50px;
-        padding: 50px;
+        font-size: 0.9rem;
+        width: 100%;
     }
 
-    .cost {
-        text-align:right;
-        max-height:20px;
+    .cmd-field input::placeholder { opacity: 0.38; }
+
+    .btn-search {
+        padding: 0 30px;
+        border: none;
+        background: goldenrod;
+        color: darkslateblue;
+        font-weight: 800;
+        font-size: 0.9rem;
+        cursor: pointer;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        flex-shrink: 0;
     }
 
-    .champion-icon {
-        max-width: 50px;
-        max-height: 50px;
-        padding: 0px;
-        margin: 0px 10px 0px 10px;
-        border: 3px solid goldenrod;
-        border-radius: 25px;
+    .btn-search:hover { background: aliceblue; }
+
+    /* ── Gold rule ── */
+    .gold-rule {
+        height: 2px;
+        background: linear-gradient(90deg, transparent, goldenrod 20%, goldenrod 80%, transparent);
+        margin: 14px 28px 0;
     }
 
-    .ability-header img {
-        float: left;
-        background: #555;
+    /* ── Body shell ── */
+    .shell {
+        display: flex;
+        flex: 1;
     }
 
-    .ability-header h4, h2 {
-        top: 18px;
-        left: 10px;
-        text-align: left !important;
+    /* ── Trait sidebar ── */
+    .trait-sidebar {
+        width: 270px;
+        flex-shrink: 0;
+        background: #006666;
+        border-right: 3px solid goldenrod;
+        padding: 24px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
     }
-    .ability-header span {
-        float: right;
-        background: #555;
+
+    .sidebar-section-title {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: goldenrod;
+        margin-bottom: 4px;
+    }
+
+    .trait-card {
+        background: darkslateblue;
+        border: 1.5px solid goldenrod;
+        border-radius: 12px;
+        padding: 13px 14px;
+    }
+
+    .trait-card h4 {
+        font-size: 0.95rem;
+        color: goldenrod;
+        font-weight: 700;
+        margin: 0 0 2px;
+    }
+
+    .trait-scale {
+        font-size: 0.72rem;
+        color: lavender;
+        opacity: 0.85;
+        margin-bottom: 6px;
+    }
+
+    .trait-card p {
+        font-size: 0.78rem;
+        line-height: 1.45;
+        opacity: 0.82;
+        margin: 0;
+    }
+
+    /* ── Champion main ── */
+    .champion-main {
+        flex: 1;
+        padding: 22px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        overflow-y: auto;
+    }
+
+    /* ── Champion card ── */
+    .champion-card {
+        background: darkslateblue;
+        border: 2px solid goldenrod;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        padding: 12px 18px;
+        background: rgba(0,0,0,0.3);
+        border-bottom: 1.5px solid goldenrod;
+        flex-wrap: wrap;
+        row-gap: 8px;
+    }
+
+    .champ-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 10px;
+        border: 2px solid goldenrod;
+        flex-shrink: 0;
+        margin-right: 14px;
+    }
+
+    .champ-name {
+        font-size: 1.2rem;
+        font-weight: 800;
+        margin-right: 12px;
+    }
+
+    .traits-inline {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        flex: 1;
+    }
+
+    .trait-badge {
+        font-size: 0.68rem;
+        padding: 3px 10px;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.13);
+        border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .cost-badge {
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 4px 11px;
+        border-radius: 20px;
+        color: #fff;
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+
+    /* ── Card body ── */
+    .card-body {
+        display: flex;
+    }
+
+    .stat-col {
+        flex: 1;
+        padding: 16px 18px;
+        border-right: 1px solid rgba(218,165,32,0.25);
+    }
+
+    .stat-col-title {
+        font-size: 0.62rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: goldenrod;
+        margin-bottom: 10px;
+    }
+
+    .stat-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px 10px;
+    }
+
+    .stat-item {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.82rem;
+        background: rgba(230,230,250,0.1);
+        border-radius: 6px;
+        padding: 4px 8px;
+    }
+
+    .s-label { color: lavender; opacity: 0.8; }
+    .s-val   { font-weight: 600; }
+
+    .stat-item--role .s-val {
+        color: goldenrod;
+        font-style: italic;
+    }
+
+    .ability-col {
+        flex: 1;
+        padding: 16px 18px;
+    }
+
+    .ability-col-title {
+        font-size: 0.62rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: goldenrod;
+        margin-bottom: 10px;
+    }
+
+    .ability-header-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .ability-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        border: 1.5px solid goldenrod;
+        flex-shrink: 0;
+    }
+
+    .ability-name {
+        font-size: 0.95rem;
+        font-weight: 700;
+    }
+
+    .ability-desc {
+        font-size: 0.8rem;
+        line-height: 1.5;
+        opacity: 0.82;
     }
 </style>
